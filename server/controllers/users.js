@@ -28,4 +28,22 @@ module.exports = {
         .then(users => res.status(200).send(users))
         .catch(error => res.status(400).send(error));
     },
+    retrieve(req, res) {
+      return User
+        .findAll({
+           where: {
+             name: req.params.name,
+             surname: req.params.surname,
+           }
+        })
+        .then(user => {
+          if (!user) {
+             return res.status(404).send({
+               message: 'User Not Found',
+             });
+          }
+          return res.status(200).send(user);
+         })
+         .catch(error => res.status(400).send(error));
+    },
   };
