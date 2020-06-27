@@ -1,5 +1,6 @@
 const User = require('../models').User;
 const Project = require('../models').Project;
+const Task = require('../models').Task;
 
 module.exports = {
   create(req, res) {
@@ -17,6 +18,10 @@ module.exports = {
         .findAll({
            include: [{
              model: Project,
+             include: [{
+               model: Task,
+               as: 'Tasks',
+             }],
              as: 'Projects',
            }],
         })
