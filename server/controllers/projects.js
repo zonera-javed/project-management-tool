@@ -1,4 +1,5 @@
 const Project = require('../models').Project;
+const Task = require('../models').Task;
 
 module.exports = {
   create(req, res) {
@@ -14,7 +15,12 @@ module.exports = {
   },
   list(req, res) {
   return Project
-    .findAll()
+    .findAll({
+       include: [{
+         model: Task,
+         as: 'Tasks',
+       }],
+     })
     .then(projects => res.status(200).send(projects))
     .catch(error => res.status(400).send(error));
   },
