@@ -21,21 +21,34 @@ module.exports = {
         .catch(error => res.status(400).send(error));
   },
   retrieve(req, res) {
-     var {name, description, status, name, surname, userId, score} = req.query
-     var query = {}
-     if (name != null) { query.name = name };
+     var {name, description, status, surname, userId, score} = req.query
+     var query = {where: {}}
+     if (name != null) {       
+        let names = name.split(",");
+     if (names.length && names.length === 1) {   
+        query.where.name = { $like: name};     
+     } else {
+        let nameQueryObj = {$and: []};      
+        names.forEach(name => { 
+          nameQueryObj.$and.push({name: name});
+        });
+        query.where = nameQueryObj;
+     }
+     };
+     //var query = {}
+     //if (name != null) { query.name = name };
      if (description != null) { query.description = description};
      if (status != null) { query.status = status };
-     if (name != null) { query.name = name };
+     //if (name != null) { query.name = name };
      if (surname != null) { query.surname = surname };
      if (userId != null) { query.userId = userId };
      if (score != null) { query.score = score };
+     console.log(query);
      return Task
        .findAll({
-         where: 
            query
        })
        .then(tasks => res.status(200).send(tasks))
-       .catch(error => res.status(400).send(error));
+       .catch(error => { console.log(error); res.status(400).send(error)});
   },
 };
