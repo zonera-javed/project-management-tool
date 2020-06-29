@@ -25,3 +25,8 @@ Assumptions:
 Enhancements:
 1. Filtering based on attributes across models (Project, Task, and User)
 2. Project based filtering
+3. Script for automating prework.
+
+Prework:
+1. In order to set this code up, you'll need to create a database to match the configuration for dev. This can be found in the config/config.json file.
+2. Please run the migrations to set up the tables needed for the post/get requests defined in this API. 
